@@ -197,6 +197,7 @@ namespace Lab__2_
             }
             else
             {
+
                 ClientVm client_ = new ClientVm();
                 client_.FullName = usernameTextBox.Text;
                 client_.PassportNumber = PassportBox.Text;
