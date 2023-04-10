@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Lab_2.Models.RentalFormVm" Collapsed="true">
+    <Position X="0.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAggAAAAAAAQAAAAAAAAAAAAAAAAAQACAAAAAQAAAAA=</HashCode>
+      <FileName>Models\RentalFormVm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab_2.Models.RentalCarVm" Collapsed="true">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAABAAhAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\RentalCarVm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab_2.Models.OrderVm" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABAAIAAIAAAAAAAAAAAAQAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Models\OrderVm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab_2.Models.ClientVm" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAIAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Models\ClientVm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab_2.Models.CarsVm" Collapsed="true">
+    <Position X="2.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAABAgAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Models\CarsVm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab_2.Models.AdministratorVm" Collapsed="true">
+    <Position X="5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQAgAAAAAAA=</HashCode>
+      <FileName>Models\AdministratorVm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

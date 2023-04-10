@@ -1,0 +1,34 @@
+﻿<Window x:Class="Lab__2_.CarSelection"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab__2_"
+        mc:Ignorable="d"
+        Title="CarSelection" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <Grid x:Name="Grid_">
+        <Button x:Name="PayBtn" Content="Pay" Margin="292,340,400,29" Click="PayBtn_Click" />
+        <Button x:Name="OrderBtn" Content="Make order" Margin="292,340,400,29" Click="OrderBtn_Click" />
+        <Button x:Name="ChooseBtn" Content="Choose" Margin="292,340,400,29" Click="ChooseBtn_Click"/>
+        <Button x:Name="ShowOrders" Content="Show orders" Margin="19,339,673,30"  FontSize="14" Click="ShowOrders_Click"/>
+
+        <Image x:Name="Daewoo_Lanos" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\lanos.jpg" Margin="440,85,10,74" Height="200" Width="400" />
+        <Image x:Name="BMW" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\bmw.jpg" Margin="440,85,10,74" Height="200" Width="400" />
+        <Image x:Name="Mercedes_Benz" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\maybach.jpg" Margin="440,85,10,74" Height="200" Width="400" />
+        <Image x:Name="Toyota_Land_Cruiser" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\crusak.jpg" Margin="440,85,10,74" Height="200" Width="400" />
+        <Label x:Name="label1" Content="Car ID : " HorizontalAlignment="Left" Margin="222,157,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="label2" Content="Car name : " HorizontalAlignment="Left" Margin="201,188,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="label3" Content="Car description : " HorizontalAlignment="Left" Margin="166,216,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="label4" Content="Is it available now : " HorizontalAlignment="Left" Margin="150,250,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="label5" Content="Rental price per day: " HorizontalAlignment="Left" Margin="140,284,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="CarIdBox" HorizontalAlignment="Left" Height="20" Margin="286,161,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="CarNameBox" HorizontalAlignment="Left" Height="20" Margin="286,192,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="CarDesBox" HorizontalAlignment="Left" Height="20" Margin="286,222,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="CarIsAvBox" HorizontalAlignment="Left" Height="20" Margin="286,254,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="CarPriceBox" HorizontalAlignment="Left" Height="20" Margin="286,288,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="PrevBtn" Content="&lt;" Margin="150,340,542,29" FontSize="24" FontWeight="Bold" Click="PrevBtn_Click"/>
+        <Button x:Name="NextBtn" Content="&gt;" Margin="438,340,254,29" FontWeight="Bold" FontSize="24" Click="NextBtn_Click"/>
+        <Button x:Name="Exittn" Content="Exit" Margin="580,340,112,29" Click="Exittn_Click"/>
+    </Grid>
+</Window>
