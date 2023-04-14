@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace Lab_2.Models
+﻿namespace Lab_2.Models
 {
     public sealed class RentalCarVm : CarsVm
     {
@@ -7,12 +6,5 @@ namespace Lab_2.Models
         public static string DamageDescription { get; set; }
         public string CarName { get; set; }
         public string Description { get; set; }
-        public RentalCarVm() { }
-        public RentalCarVm(int carID, string carName, string description,  bool isAvailable, decimal rentPrice) : base(carID, isAvailable, rentPrice)
-        {
-            CarName = carName;
-            Description = description;
-           
-        }
     }
 }

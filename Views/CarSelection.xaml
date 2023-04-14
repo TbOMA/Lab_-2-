@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab__2_"
         mc:Ignorable="d"
-        Title="CarSelection" Height="450" Width="800"
+        Title="CarSelection" MaxHeight="450" MinHeight="450" MaxWidth="800" MinWidth="800"
         Loaded="Window_Loaded">
     <Grid x:Name="Grid_">
-        <Button x:Name="PayBtn" Content="Pay" Margin="292,340,400,29" Click="PayBtn_Click" />
-        <Button x:Name="OrderBtn" Content="Make order" Margin="292,340,400,29" Click="OrderBtn_Click" />
-        <Button x:Name="ChooseBtn" Content="Choose" Margin="292,340,400,29" Click="ChooseBtn_Click"/>
-        <Button x:Name="ShowOrders" Content="Show orders" Margin="19,339,673,30"  FontSize="14" Click="ShowOrders_Click"/>
+        <Button x:Name="PayBtn" Content="Pay" Margin="292,340,400,29" Click="PayBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" />
+        <Button x:Name="OrderBtn" Content="Make order" Margin="292,340,400,29" Click="OrderBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="ChooseBtn" Content="Choose" Margin="292,340,400,29" Click="ChooseBtn_Click" BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="ShowOrders" Content="Show orders" Margin="19,339,673,30" Click="ShowOrders_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
 
         <Image x:Name="Daewoo_Lanos" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\lanos.jpg" Margin="440,85,10,74" Height="200" Width="400" />
         <Image x:Name="BMW" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\bmw.jpg" Margin="440,85,10,74" Height="200" Width="400" />
@@ -27,8 +27,8 @@
         <TextBox x:Name="CarDesBox" HorizontalAlignment="Left" Height="20" Margin="286,222,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="CarIsAvBox" HorizontalAlignment="Left" Height="20" Margin="286,254,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="CarPriceBox" HorizontalAlignment="Left" Height="20" Margin="286,288,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="PrevBtn" Content="&lt;" Margin="150,340,542,29" FontSize="24" FontWeight="Bold" Click="PrevBtn_Click"/>
-        <Button x:Name="NextBtn" Content="&gt;" Margin="438,340,254,29" FontWeight="Bold" FontSize="24" Click="NextBtn_Click"/>
-        <Button x:Name="Exittn" Content="Exit" Margin="580,340,112,29" Click="Exittn_Click"/>
+        <Button x:Name="PrevBtn" Content="&lt;" Margin="150,340,542,29" FontSize="24" FontWeight="Bold" Click="PrevBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="NextBtn" Content="&gt;" Margin="438,340,254,29" FontWeight="Bold" FontSize="24" Click="NextBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="Exittn" Content="Exit" Margin="580,340,112,29" Click="Exittn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
     </Grid>
 </Window>

@@ -188,6 +188,7 @@ namespace Lab__2_
             Administrator.Visibility = Visibility.Collapsed;
             Client.Visibility = Visibility.Collapsed;
             sign_in_admin.Margin = new Thickness(255, 300, 0, 0);
+            cancelButton.Margin = new Thickness(470, -24, 0, 0);
             IdBox.Margin = new Thickness(300, 175, 0, 0);
             DepositBox.Margin = new Thickness(300,20,0,0);
 
@@ -214,8 +215,8 @@ namespace Lab__2_
             SignInClientChoose.Visibility = Visibility.Collapsed;
             cancelButton.Visibility = Visibility.Visible;
             SignUp_Client.Visibility = Visibility.Visible;
-            SignUp_Client.Margin = new Thickness(255, -20, 0, 0);
-            cancelButton.Margin = new Thickness(450, 300, 0, 0);
+            SignUp_Client.Margin = new Thickness(255, -25, 0, 0);
+            cancelButton.Margin = new Thickness(470, 310, 0, 0);
             label4.Margin = new Thickness(223, 20, 0, 0);
             DepositBox.Visibility = Visibility.Visible;
             DepositBox.Margin = new Thickness(331, 20, 0, 0);
@@ -237,7 +238,7 @@ namespace Lab__2_
             SignUpClientChoose.Visibility = Visibility.Collapsed;
             label3.Margin = new Thickness(240, 175, 0, 0);
             IdBox.Margin = new Thickness(300, 175, 0, 0);
-            SignIn_Client.Margin = new Thickness(270, -20, 0, 0);
+            SignIn_Client.Margin = new Thickness(270, -25, 0, 0);
             cancelButton.Margin = new Thickness(450, 250, 0, 0);
         }
     }

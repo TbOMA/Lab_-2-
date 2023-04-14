@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab__2_"
         mc:Ignorable="d"
-        Title="AdminForm" Height="500" Width="800"
+        Title="AdminForm" MaxHeight="500" MinHeight="500" MaxWidth="800" MinWidth="800"
         Loaded="Window_Loaded">
     <Grid>
-        <Button x:Name="showorder" Content="Show all orders" Margin="335,188,315,236" Click="showorder_Click"/>
-        <Button x:Name="ConfirmBtn" Content="Confirm" Margin="212,343,488,31" Height="60" Click="ConfirmBtn_Click" />
-        <Button x:Name="ConfirmReject" Content="Confirm Reject" Margin="212,343,488,31" Height="60" Click="ConfirmReject_Click" />
-        <Button x:Name="PrevBtn" Content="&lt;" Margin="70,340,622,29" FontSize="24" FontWeight="Bold" Click="PrevBtn_Click" Height="60" />
-        <Button x:Name="NextBtn" Content="&gt;" Margin="502,343,198,31" FontWeight="Bold" FontSize="24" Click="NextBtn_Click" Height="60"/>
-        <Button x:Name="ExitBtn" Content="Exit" Margin="644,343,56,31" Click="ExitBtn_Click" Height="60" />
-        <Button x:Name="RejectBtn" Content="Reject" Margin="360,343,340,31" Height="60" Click="RejectBtn_Click"/>
+        <Button x:Name="showorder" Content="Show all orders" Margin="335,188,315,236" Click="showorder_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="ConfirmBtn" Content="Confirm" Margin="212,343,488,31" Height="60" Click="ConfirmBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="ConfirmReject" Content="Confirm Reject" Margin="212,343,488,31" Height="60" Click="ConfirmReject_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="PrevBtn" Content="&lt;" Margin="70,340,622,29" FontSize="24" FontWeight="Bold" Click="PrevBtn_Click" Height="60"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="NextBtn" Content="&gt;" Margin="502,343,198,31" FontWeight="Bold" FontSize="24" Click="NextBtn_Click" Height="60" BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5"  FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="ExitBtn" Content="Exit" Margin="644,343,56,31" Click="ExitBtn_Click" Height="60"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="RejectBtn" Content="Reject" Margin="360,343,340,31" Height="60" Click="RejectBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
         <StackPanel x:Name="labels" Orientation="Vertical">
             <Label Content="Car ID : " Width="100" Margin="-100,45,0,0"/>
             <Label Content="Client ID  :" Width="100" Margin="-135,4,0,0"/>
