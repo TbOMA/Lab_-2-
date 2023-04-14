@@ -4,6 +4,7 @@ using System.Windows;
 using System.IO;
 using System.Windows.Documents;
 using System.Collections.Generic;
+using Lab__2_.Extensions;
 
 namespace Lab__2_
 {
@@ -32,7 +33,6 @@ namespace Lab__2_
         }
         private void showorder_Click(object sender, RoutedEventArgs e)
         {
-            
             if (OrderVm.orders.Count > 0)
             {
                 ConfirmBtn.Visibility = Visibility.Visible;
@@ -55,18 +55,11 @@ namespace Lab__2_
                 Is_ApprovBox.Text = OrderVm.orders[0].IsApproved.ToString();
                 AmountBox.Text = OrderVm.orders[0].TotalAmount.ToString();
                 IsPaidBox.Text = OrderVm.orders[0].IsPaid.ToString();
-                RentalCarVm machine = RentalCarVm.carslist.Find(m => m.CarID == OrderVm.orders[0].CarID);
-                if (machine.IsDamaged)
-                {
-                    MessageBoxResult crashed = MessageBox.Show($"A client who has such an ID {OrderVm.orders[0].ClientID} crashed the car", 
-                        "", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                CrashInfo();
             }
             else
             {
                 MessageBoxResult result = MessageBox.Show("There are no orders now", "", MessageBoxButton.OK, MessageBoxImage.Error);
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
                 Close();
             }
         }
@@ -104,12 +97,7 @@ namespace Lab__2_
                 Is_ApprovBox.Text = OrderVm.orders[i].IsApproved.ToString();
                 AmountBox.Text = OrderVm.orders[i].TotalAmount.ToString();
                 IsPaidBox.Text = OrderVm.orders[i].IsPaid.ToString();
-                RentalCarVm machine = RentalCarVm.carslist.Find(m => m.CarID == OrderVm.orders[i].CarID);
-                if (machine.IsDamaged)
-                {
-                    MessageBoxResult crashed = MessageBox.Show($"A client who has such an ID {OrderVm.orders[i].ClientID} crashed the car",
-                        "", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                CrashInfo();
                 i++;
                 if (i >= OrderVm.orders.Count || OrderVm.orders.Count == 2)
                 {
@@ -155,12 +143,7 @@ namespace Lab__2_
             Is_ApprovBox.Text = OrderVm.orders[i - 1].IsApproved.ToString();
             AmountBox.Text = OrderVm.orders[i - 1].TotalAmount.ToString();
             IsPaidBox.Text = OrderVm.orders[i - 1].IsPaid.ToString();
-            RentalCarVm machine = RentalCarVm.carslist.Find(m => m.CarID == OrderVm.orders[i-1].CarID);
-            if (machine.IsDamaged)
-            {
-                MessageBoxResult crashed = MessageBox.Show($"A client who has such an ID {OrderVm.orders[i-1].ClientID} crashed the car",
-                    "", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            CrashInfo();
         }
         private void ConfirmBtn_Click( object sender, RoutedEventArgs e )
         {
@@ -191,8 +174,6 @@ namespace Lab__2_
         }
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
             Close();
         }
         public static void FastDriving(OrderVm order,ClientVm _client)
@@ -200,17 +181,27 @@ namespace Lab__2_
             MessageBoxResult fastdriving = MessageBox.Show("You want to drive very fast?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (fastdriving == MessageBoxResult.Yes)
             {
-                RentalCarVm machine = RentalCarVm.carslist.Find(m => m.CarID == order.CarID);
+                var carslist = FileExtension.GetCarFromFile("carlist.json");
+                RentalCarVm machine = carslist.Find(m => m.CarID == order.CarID);
                 machine.IsDamaged = true;
                 fastdriving = MessageBox.Show("You crashed the car, pay the fine", "", MessageBoxButton.OK, MessageBoxImage.Information);
                 if ((_client.Balance = _client.Balance - (order.TotalAmount * 2)) < 0)
                 {
                     MessageBox.Show("You don't have enough funds, you are blacklisted", "", MessageBoxButton.OK, MessageBoxImage.Information);
-                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    blacklist = FileExtension.GetBlacklistFile();
                     blacklist.Add(_client);
-                    string jsonString = JsonSerializer.Serialize(blacklist, options);
-                    File.WriteAllText(@"C:\Users\Артем\source\repos\2 sem\Lab_(2)\blacklist.json", jsonString);
+                    FileExtension.AddInBlacklistFile(blacklist);
                 }
+            }
+        }
+        public void CrashInfo()
+        {
+            var carslist = FileExtension.GetCarFromFile("carlist.json");
+            RentalCarVm machine = carslist.Find(m => m.CarID == OrderVm.orders[i - 1].CarID);
+            if (machine.IsDamaged)
+            {
+                MessageBoxResult crashed = MessageBox.Show($"A client who has such an ID {OrderVm.orders[i - 1].ClientID} crashed the car",
+                    "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

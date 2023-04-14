@@ -3,7 +3,6 @@ namespace Lab_2.Models
 {
     public sealed class RentalCarVm : CarsVm
     {
-        public static List<RentalCarVm> carslist = new List<RentalCarVm> { };
         new public bool IsDamaged { get; set; }
         public static string DamageDescription { get; set; }
         public string CarName { get; set; }

@@ -4,6 +4,9 @@ using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Lab_2.Models;
+using Lab__2_.Extensions;
+using System.Collections.Generic;
+
 namespace Lab__2_
 {
     /// <summary>
@@ -11,21 +14,23 @@ namespace Lab__2_
     /// </summary>
     public partial class CarSelection : Window
     {
-        int i = 1;
+        int current_page = 1;
         private ClientVm _client;
+        public static List<RentalCarVm> carslist;
         public CarSelection(ClientVm client)
         {
             InitializeComponent();
             _client = client;
+            carslist= FileExtension.GetCarFromFile("carlist.json");
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Background = Brushes.LightGray;
-            CarIdBox.Text = RentalCarVm.carslist[0].CarID.ToString(); 
-            CarNameBox.Text = RentalCarVm.carslist[0].CarName.ToString();
-            CarDesBox.Text = RentalCarVm.carslist[0].Description.ToString();
-            CarIsAvBox.Text = RentalCarVm.carslist[0].IsAvailable.ToString();
-            CarPriceBox.Text = RentalCarVm.carslist[0].RentPrice.ToString();
+            Background = Brushes.LightGray; 
+            CarIdBox.Text = carslist[0].CarID.ToString(); 
+            CarNameBox.Text = carslist[0].CarName.ToString();
+            CarDesBox.Text = carslist[0].Description.ToString();
+            CarIsAvBox.Text = carslist[0].IsAvailable.ToString();
+            CarPriceBox.Text = carslist[0].RentPrice.ToString();
             PrevBtn.IsEnabled = false;
             Daewoo_Lanos.Visibility = Visibility.Collapsed;
             Toyota_Land_Cruiser.Visibility = Visibility.Collapsed;
@@ -33,21 +38,21 @@ namespace Lab__2_
         }
         private void PrevBtn_Click(object sender, RoutedEventArgs e)
         {
-            --i;
-            if (i<RentalCarVm.carslist.Count) { NextBtn.IsEnabled = true; }
-            if (i <= 1)
+            --current_page;
+            if (current_page < carslist.Count) { NextBtn.IsEnabled = true; }
+            if (current_page <= 1)
             {
                 PrevBtn.IsEnabled = false;
             }
-            Image myImage = (Image)FindName(RentalCarVm.carslist[i].CarName);
+            Image myImage = (Image)FindName(carslist[current_page].CarName);
             myImage.Visibility = Visibility.Collapsed;
-            myImage = (Image)FindName(RentalCarVm.carslist[i-1].CarName);
+            myImage = (Image)FindName(carslist[current_page -1].CarName);
             myImage.Visibility = Visibility.Visible;
-            CarIdBox.Text = RentalCarVm.carslist[i-1].CarID.ToString();
-            CarNameBox.Text = RentalCarVm.carslist[i-1].CarName.ToString();
-            CarDesBox.Text = RentalCarVm.carslist[i-1].Description.ToString();
-            CarIsAvBox.Text = RentalCarVm.carslist[i-1].IsAvailable.ToString();
-            CarPriceBox.Text = RentalCarVm.carslist[i-1].RentPrice.ToString();
+            CarIdBox.Text = carslist[current_page -1].CarID.ToString();
+            CarNameBox.Text = carslist[current_page -1].CarName.ToString();
+            CarDesBox.Text = carslist[current_page -1].Description.ToString();
+            CarIsAvBox.Text = carslist[current_page -1].IsAvailable.ToString();
+            CarPriceBox.Text = carslist[current_page -1].RentPrice.ToString();
         }
         private void ChooseBtn_Click(object sender, RoutedEventArgs e)
         {   
@@ -59,7 +64,7 @@ namespace Lab__2_
                     return;
                 }
             }
-            if (RentalCarVm.carslist[i-1].IsAvailable)
+            if (carslist[current_page -1].IsAvailable)
             {
                 CarNameBox.Visibility = Visibility.Collapsed;
                 CarIsAvBox.Visibility = Visibility.Collapsed;
@@ -87,20 +92,20 @@ namespace Lab__2_
         }
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(i>0) { PrevBtn.IsEnabled=true; }
-            if (i <= RentalCarVm.carslist.Count - 1)
+            if(current_page >0) { PrevBtn.IsEnabled=true; }
+            if (current_page <= carslist.Count - 1)
             {
-                Image myImage = (Image)FindName(RentalCarVm.carslist[i-1].CarName);
+                Image myImage = (Image)FindName(carslist[current_page -1].CarName);
                 myImage.Visibility = Visibility.Collapsed;
-                myImage = (Image)FindName(RentalCarVm.carslist[i].CarName);
+                myImage = (Image)FindName(carslist[current_page].CarName);
                 myImage.Visibility = Visibility.Visible;  
-                CarIdBox.Text = RentalCarVm.carslist[i].CarID.ToString();
-                CarNameBox.Text = RentalCarVm.carslist[i].CarName.ToString();
-                CarDesBox.Text = RentalCarVm.carslist[i].Description.ToString();
-                CarIsAvBox.Text = RentalCarVm.carslist[i].IsAvailable.ToString();
-                CarPriceBox.Text = RentalCarVm.carslist[i].RentPrice.ToString();
-                i++;
-                if (i>=RentalCarVm.carslist.Count)
+                CarIdBox.Text = carslist[current_page].CarID.ToString();
+                CarNameBox.Text = carslist[current_page].CarName.ToString();
+                CarDesBox.Text = carslist[current_page].Description.ToString();
+                CarIsAvBox.Text = carslist[current_page].IsAvailable.ToString();
+                CarPriceBox.Text = carslist[current_page].RentPrice.ToString();
+                current_page++;
+                if (current_page >=carslist.Count)
                 {
                     NextBtn.IsEnabled = false;
                 }
@@ -108,10 +113,10 @@ namespace Lab__2_
         }
         private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
-            int selectedcar = i;
-            for (int j = 1; j <= RentalCarVm.carslist.Count; j++)
+            int selectedcar = current_page;
+            for (int j = 1; j <= carslist.Count; j++)
             {
-                RentalCarVm machine = RentalCarVm.carslist.Find(m => m.CarID == j);
+                RentalCarVm machine = carslist.Find(m => m.CarID == j);
                 if (selectedcar == machine.CarID)
                 {
                     if (machine.IsAvailable)
@@ -128,6 +133,7 @@ namespace Lab__2_
                         carorder.TotalAmount = machine.RentPrice * rentdays;
                         OrderVm.orders.Add(carorder);
                         MessageBoxResult result = MessageBox.Show("Your order has been placed.","", MessageBoxButton.OK, MessageBoxImage.Information);
+                        FileExtension.WriteCarToFile(carslist,"carlist.json");
                         break;
                     }
                 }
@@ -146,7 +152,7 @@ namespace Lab__2_
                 NextBtn.Visibility = Visibility.Collapsed;
                 ChooseBtn.Visibility = Visibility.Collapsed;
                 OrderBtn.Visibility = Visibility.Collapsed;
-                RentalCarVm machine = RentalCarVm.carslist.Find(m => m.CarID == rentorder.CarID);
+                RentalCarVm machine = carslist.Find(m => m.CarID == rentorder.CarID);
                 Image myImage = (Image)FindName(machine.CarName);
                 myImage.Visibility = Visibility.Visible;
                 CarIdBox.Text = machine.CarID.ToString();
@@ -154,7 +160,6 @@ namespace Lab__2_
                 CarDesBox.Text = machine.Description;
                 CarIsAvBox.Text = "true";
                 CarPriceBox.Text = machine.RentPrice.ToString();
-                
             }
 
             else if (rentorder != null)
@@ -166,7 +171,6 @@ namespace Lab__2_
             {
                 MessageBoxResult result = MessageBox.Show($"You have not placed any orders", "", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
         }
         private void PayBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -186,8 +190,6 @@ namespace Lab__2_
         }
         private void Exittn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
             Close();
         }
     }
