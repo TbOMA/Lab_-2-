@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Windows;
-using System.IO;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Lab_2.Models;
@@ -16,21 +14,21 @@ namespace Lab__2_
     {
         int current_page = 1;
         private ClientVm _client;
-        public static List<RentalCarVm> carslist;
+        public static List<RentalCarVm> CarslList;
         public CarSelection(ClientVm client)
         {
             InitializeComponent();
             _client = client;
-            carslist= FileExtension.GetCarFromFile("carlist.json");
+            CarslList = FileExtension.GetCarFromFile("carlist.json");
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Background = Brushes.LightGray; 
-            CarIdBox.Text = carslist[0].CarID.ToString(); 
-            CarNameBox.Text = carslist[0].CarName.ToString();
-            CarDesBox.Text = carslist[0].Description.ToString();
-            CarIsAvBox.Text = carslist[0].IsAvailable.ToString();
-            CarPriceBox.Text = carslist[0].RentPrice.ToString();
+            CarIdBox.Text = CarslList[0].CarID.ToString(); 
+            CarNameBox.Text = CarslList[0].CarName.ToString();
+            CarDesBox.Text = CarslList[0].Description.ToString();
+            CarIsAvBox.Text = CarslList[0].IsAvailable.ToString();
+            CarPriceBox.Text = CarslList[0].RentPrice.ToString();
             PrevBtn.IsEnabled = false;
             Daewoo_Lanos.Visibility = Visibility.Collapsed;
             Toyota_Land_Cruiser.Visibility = Visibility.Collapsed;
@@ -39,20 +37,20 @@ namespace Lab__2_
         private void PrevBtn_Click(object sender, RoutedEventArgs e)
         {
             --current_page;
-            if (current_page < carslist.Count) { NextBtn.IsEnabled = true; }
+            if (current_page < CarslList.Count) { NextBtn.IsEnabled = true; }
             if (current_page <= 1)
             {
                 PrevBtn.IsEnabled = false;
             }
-            Image myImage = (Image)FindName(carslist[current_page].CarName);
+            Image myImage = (Image)FindName(CarslList[current_page].CarName);
             myImage.Visibility = Visibility.Collapsed;
-            myImage = (Image)FindName(carslist[current_page -1].CarName);
+            myImage = (Image)FindName(CarslList[current_page -1].CarName);
             myImage.Visibility = Visibility.Visible;
-            CarIdBox.Text = carslist[current_page -1].CarID.ToString();
-            CarNameBox.Text = carslist[current_page -1].CarName.ToString();
-            CarDesBox.Text = carslist[current_page -1].Description.ToString();
-            CarIsAvBox.Text = carslist[current_page -1].IsAvailable.ToString();
-            CarPriceBox.Text = carslist[current_page -1].RentPrice.ToString();
+            CarIdBox.Text = CarslList[current_page -1].CarID.ToString();
+            CarNameBox.Text = CarslList[current_page -1].CarName.ToString();
+            CarDesBox.Text = CarslList[current_page -1].Description.ToString();
+            CarIsAvBox.Text = CarslList[current_page -1].IsAvailable.ToString();
+            CarPriceBox.Text = CarslList[current_page -1].RentPrice.ToString();
         }
         private void ChooseBtn_Click(object sender, RoutedEventArgs e)
         {   
@@ -64,7 +62,7 @@ namespace Lab__2_
                     return;
                 }
             }
-            if (carslist[current_page -1].IsAvailable)
+            if (CarslList[current_page -1].IsAvailable)
             {
                 CarNameBox.Visibility = Visibility.Collapsed;
                 CarIsAvBox.Visibility = Visibility.Collapsed;
@@ -93,19 +91,19 @@ namespace Lab__2_
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
             if(current_page >0) { PrevBtn.IsEnabled=true; }
-            if (current_page <= carslist.Count - 1)
+            if (current_page <= CarslList.Count - 1)
             {
-                Image myImage = (Image)FindName(carslist[current_page -1].CarName);
+                Image myImage = (Image)FindName(CarslList[current_page -1].CarName);
                 myImage.Visibility = Visibility.Collapsed;
-                myImage = (Image)FindName(carslist[current_page].CarName);
+                myImage = (Image)FindName(CarslList[current_page].CarName);
                 myImage.Visibility = Visibility.Visible;  
-                CarIdBox.Text = carslist[current_page].CarID.ToString();
-                CarNameBox.Text = carslist[current_page].CarName.ToString();
-                CarDesBox.Text = carslist[current_page].Description.ToString();
-                CarIsAvBox.Text = carslist[current_page].IsAvailable.ToString();
-                CarPriceBox.Text = carslist[current_page].RentPrice.ToString();
+                CarIdBox.Text = CarslList[current_page].CarID.ToString();
+                CarNameBox.Text = CarslList[current_page].CarName.ToString();
+                CarDesBox.Text = CarslList[current_page].Description.ToString();
+                CarIsAvBox.Text = CarslList[current_page].IsAvailable.ToString();
+                CarPriceBox.Text = CarslList[current_page].RentPrice.ToString();
                 current_page++;
-                if (current_page >=carslist.Count)
+                if (current_page >=CarslList.Count)
                 {
                     NextBtn.IsEnabled = false;
                 }
@@ -114,9 +112,9 @@ namespace Lab__2_
         private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
             int selectedcar = current_page;
-            for (int j = 1; j <= carslist.Count; j++)
+            for (int j = 1; j <= CarslList.Count; j++)
             {
-                RentalCarVm machine = carslist.Find(m => m.CarID == j);
+                RentalCarVm machine = CarslList.Find(m => m.CarID == j);
                 if (selectedcar == machine.CarID)
                 {
                     if (machine.IsAvailable)
@@ -133,7 +131,7 @@ namespace Lab__2_
                         carorder.TotalAmount = machine.RentPrice * rentdays;
                         OrderVm.orders.Add(carorder);
                         MessageBoxResult result = MessageBox.Show("Your order has been placed.","", MessageBoxButton.OK, MessageBoxImage.Information);
-                        FileExtension.WriteCarToFile(carslist,"carlist.json");
+                        FileExtension.WriteCarToFile(CarslList,"carlist.json");
                         break;
                     }
                 }
@@ -152,7 +150,7 @@ namespace Lab__2_
                 NextBtn.Visibility = Visibility.Collapsed;
                 ChooseBtn.Visibility = Visibility.Collapsed;
                 OrderBtn.Visibility = Visibility.Collapsed;
-                RentalCarVm machine = carslist.Find(m => m.CarID == rentorder.CarID);
+                RentalCarVm machine = CarslList.Find(m => m.CarID == rentorder.CarID);
                 Image myImage = (Image)FindName(machine.CarName);
                 myImage.Visibility = Visibility.Visible;
                 CarIdBox.Text = machine.CarID.ToString();
