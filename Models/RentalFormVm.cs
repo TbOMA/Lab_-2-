@@ -9,5 +9,4 @@
         public bool IsPaid { get; set; }
         public bool IsConsidered { get; set; }
     }
-
 }

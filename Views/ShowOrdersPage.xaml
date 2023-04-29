@@ -1,0 +1,44 @@
+﻿<Page x:Class="Lab__2_.Views.ShowOrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Lab__2_.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ShowOrders" Loaded="Page_Loaded">
+
+    <Grid>
+        <Button x:Name="ConfirmBtn" Content="Confirm" Margin="212,343,488,31" Height="60"   BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" Click="ConfirmBtn_Click"/>
+        <Button x:Name="ConfirmReject" Content="Confirm Reject" Margin="195,343,488,31" Height="60"   BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" Click="ConfirmReject_Click"/>
+        <Button x:Name="PrevBtn" Content="&lt;" Margin="50,340,650,29" FontSize="24" FontWeight="Bold"  Height="60"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontFamily="Bahnschrift SemiBold Condensed" Click="PrevBtn_Click"/>
+        <Button x:Name="NextBtn" Content="&gt;" Margin="502,343,198,31" FontWeight="Bold" FontSize="24"  Height="60" BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5"  FontFamily="Bahnschrift SemiBold Condensed" Click="NextBtn_Click"/>
+        <Button x:Name="RejectBtn" Content="Reject" Margin="360,343,340,31" Height="60"   BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" Click="RejectBtn_Click"/>
+        <StackPanel x:Name="labels" Orientation="Vertical">
+            <Label Content="Car ID : " Width="100" Margin="-100,45,0,0"/>
+            <Label Content="Client ID  :" Width="100" Margin="-135,4,0,0"/>
+            <Label Content="Rental time :" Width="100" Margin="-158,4,0,0"/>
+            <Label Content="Full name :" Width="100" Margin="-140,4,0,0"/>
+            <Label Content="Passport number :" Width="110" Margin="-210,4,0,0"/>
+            <Label Content="Is approved :" Width="100" Margin="-165,4,0,0"/>
+            <Label Content="Total amount :" Width="100" Margin="-180,4,0,0"/>
+            <Label Content="Is paid : " Width="100" Margin="-110,-3,0,0"/>
+            <Label x:Name="label9" Content="Rejection reason :" Width="110" Margin="-205,0,0,0"/>
+            <Label x:Name="label10" Content="The order has already been confirmed!" Width="214" Margin="20,30,0,0" />
+            <Label x:Name="label11" Content="The client crashed the car" Width="214" Margin="500,-80,10,0" Foreground="Red" />
+        </StackPanel>
+
+
+        <StackPanel x:Name="textboxs" Orientation="Vertical">
+            <TextBox x:Name="CarIdBox" Width="120" Margin="40,50,0,0"/>
+            <TextBox x:Name="ClientIdBox" Width="120" Margin="40,12,0,0"/>
+            <TextBox x:Name="RentTimeBox" Width="120" Margin="40,12,0,0"/>
+            <TextBox x:Name="FullNameBox" Width="120" Margin="40,12,0,0"/>
+            <TextBox x:Name="PassportBox" Width="120" Margin="40,12,0,0"/>
+            <TextBox x:Name="Is_ApprovBox" Width="120" Margin="40,12,0,0"/>
+            <TextBox x:Name="AmountBox" Width="120" Margin="40,8,0,0"/>
+            <TextBox x:Name="IsPaidBox" Width="120" Margin="40,9,0,0"/>
+            <TextBox x:Name="RejectBox" Width="120" Margin="40,8,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -8,41 +8,19 @@
         Title="AdminForm" MaxHeight="500" MinHeight="500" MaxWidth="800" MinWidth="800"
         Loaded="Window_Loaded">
     <Grid>
-        <Button x:Name="showorder" Content="Show all orders" Margin="335,188,315,236" Click="showorder_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
-        <Button x:Name="ConfirmBtn" Content="Confirm" Margin="212,343,488,31" Height="60" Click="ConfirmBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
-        <Button x:Name="ConfirmReject" Content="Confirm Reject" Margin="212,343,488,31" Height="60" Click="ConfirmReject_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
-        <Button x:Name="PrevBtn" Content="&lt;" Margin="70,340,622,29" FontSize="24" FontWeight="Bold" Click="PrevBtn_Click" Height="60"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontFamily="Bahnschrift SemiBold Condensed"/>
-        <Button x:Name="NextBtn" Content="&gt;" Margin="502,343,198,31" FontWeight="Bold" FontSize="24" Click="NextBtn_Click" Height="60" BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5"  FontFamily="Bahnschrift SemiBold Condensed"/>
+        <Button x:Name="showorder" Content="Show all orders" Margin="450,188,31,236" Click="showorder_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" Width="150"/>
         <Button x:Name="ExitBtn" Content="Exit" Margin="644,343,56,31" Click="ExitBtn_Click" Height="60"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
-        <Button x:Name="RejectBtn" Content="Reject" Margin="360,343,340,31" Height="60" Click="RejectBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
-        <StackPanel x:Name="labels" Orientation="Vertical">
-            <Label Content="Car ID : " Width="100" Margin="-100,45,0,0"/>
-            <Label Content="Client ID  :" Width="100" Margin="-135,4,0,0"/>
-            <Label Content="Rental time :" Width="100" Margin="-158,4,0,0"/>
-            <Label Content="Full name :" Width="100" Margin="-140,4,0,0"/>
-            <Label Content="Passport number :" Width="110" Margin="-210,4,0,0"/>
-            <Label Content="Is approved :" Width="100" Margin="-165,4,0,0"/>
-            <Label Content="Total amount :" Width="100" Margin="-180,4,0,0"/>
-            <Label Content="Is paid : " Width="100" Margin="-110,-3,0,0"/>
-            <Label x:Name="label9" Content="Rejection reason :" Width="110" Margin="-205,0,0,0"/>
-            <Label x:Name="label10" Content="The order has already been confirmed!" Width="214" Margin="20,30,0,0"/>
+        <Button x:Name="showocar" Content="Show all cars" Margin="0,188,310,236"   BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" Width="150" Click="showocar_Click"/>
+        <Grid Grid.Row="2">
+            <Frame x:Name="ShowOrdersPage" >
 
-
-        </StackPanel>
-
-        
-        <StackPanel x:Name="textboxs" Orientation="Vertical">
-            <TextBox x:Name="CarIdBox" Width="120" Margin="40,50,0,0"/>
-            <TextBox x:Name="ClientIdBox" Width="120" Margin="40,12,0,0"/>
-            <TextBox x:Name="RentTimeBox" Width="120" Margin="40,12,0,0"/>
-            <TextBox x:Name="FullNameBox" Width="120" Margin="40,12,0,0"/>
-            <TextBox x:Name="PassportBox" Width="120" Margin="40,12,0,0"/>
-            <TextBox x:Name="Is_ApprovBox" Width="120" Margin="40,12,0,0"/>
-            <TextBox x:Name="AmountBox" Width="120" Margin="40,8,0,0"/>
-            <TextBox x:Name="IsPaidBox" Width="120" Margin="40,9,0,0"/>
-            <TextBox x:Name="RejectBox" Width="120" Margin="40,8,0,0"/>
-        </StackPanel>
-
+            </Frame>
+        </Grid>
+        <Grid>
+            <Frame x:Name="ShowCarsCatalogPage">
+                
+            </Frame>
+        </Grid>
        
     </Grid>
 </Window>

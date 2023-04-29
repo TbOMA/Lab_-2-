@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace Lab_2.Models
 {
     public class OrderVm : RentalFormVm

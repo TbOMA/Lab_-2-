@@ -13,10 +13,9 @@
         <Button x:Name="ChooseBtn" Content="Choose" Margin="292,340,400,29" Click="ChooseBtn_Click" BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
         <Button x:Name="ShowOrders" Content="Show orders" Margin="19,339,673,30" Click="ShowOrders_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
 
-        <Image x:Name="Daewoo_Lanos" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\lanos.jpg" Margin="440,85,10,74" Height="200" Width="400" />
-        <Image x:Name="BMW" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\bmw.jpg" Margin="440,85,10,74" Height="200" Width="400" />
-        <Image x:Name="Mercedes_Benz" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\maybach.jpg" Margin="440,85,10,74" Height="200" Width="400" />
-        <Image x:Name="Toyota_Land_Cruiser" Source="C:\Users\Артем\source\repos\2 sem\Lab_(2)\Images\crusak.jpg" Margin="440,85,10,74" Height="200" Width="400" />
+        <Grid x:Name="ImageGrid">
+            <Image x:Name="CarImage"  Margin="440,85,10,74" Height="200" Width="400" Source="{Binding ImageSourse}" ></Image>
+        </Grid>
         <Label x:Name="label1" Content="Car ID : " HorizontalAlignment="Left" Margin="222,157,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label x:Name="label2" Content="Car name : " HorizontalAlignment="Left" Margin="201,188,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label x:Name="label3" Content="Car description : " HorizontalAlignment="Left" Margin="166,216,0,0" VerticalAlignment="Top" FontSize="14"/>
