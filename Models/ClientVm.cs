@@ -1,14 +1,14 @@
-﻿
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Lab_2.Models
 {
     public class ClientVm
-    {   
-        public static List<ClientVm> clientlist = new List<ClientVm> { };
+    {          
+        [Key]
+        public int Id { get; set; }
         public int ClientID { get; set; }
-        public string UserName { get; set; }
-        public string PassportNumber { get; set; }
+        public string ? Username { get; set; }
+        public string ? PassportNumber { get; set; }
         public decimal Balance { get; set; }
     }
 }

@@ -3,9 +3,9 @@
     public sealed class RentalCarVm : CarsVm
     {
         new public bool IsDamaged { get; set; }
-        public static string DamageDescription { get; set; }
-        public string CarName { get; set; }
-        public string Description { get; set; }
-        public string CarImagePath { get; set; }
+        public static string ? DamageDescription { get; set; }
+        public string ? CarName { get; set; }
+        public string ? Description { get; set; }
+        public string ? CarImagePath { get; set; }
     }
 }

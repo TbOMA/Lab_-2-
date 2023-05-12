@@ -1,5 +1,4 @@
-﻿using Lab__2_.Extensions;
-using Lab__2_.Services;
+﻿using Lab__2_.Services;
 using Lab_2.Models;
 using System;
 using System.Collections.Generic;
@@ -17,12 +16,12 @@ namespace Lab__2_.Views
     {
         public static List<RentalCarVm> CarsList;
         int current_page = 1;
-        private readonly ICarService carService;
+        private readonly ICarService _carService;
         public ShowCarsCatalogPage(ICarService carService)
         {
             InitializeComponent();
-            CarsList = FileExtension.GetCarFromFile("carlist.json");
-            this.carService = carService;
+            CarsList = carService.GetAll();
+            _carService = carService;
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -50,8 +49,10 @@ namespace Lab__2_.Views
         }
         private void AddCarBtn_Click(object sender, RoutedEventArgs e)
         {
-            CarsList.Add(carService.AddCarInCatalog(CarIdBox.Text,CarNameBox.Text,CarDesBox.Text,CarPriceBox.Text,CarPathBox.Text));
-            FileExtension.SaveToFile(CarsList);
+            RentalCarVm rentalCarVm;
+            rentalCarVm = _carService.AddCarInCatalog(CarIdBox.Text, CarNameBox.Text, CarDesBox.Text, CarPriceBox.Text, CarPathBox.Text);
+            CarsList.Add(rentalCarVm);
+            _carService.Create(rentalCarVm);
             MessageBox.Show("The car was added to the catalog", "", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         private void PrevBtn_Click(object sender, RoutedEventArgs e)
@@ -84,15 +85,16 @@ namespace Lab__2_.Views
                 //Task 3.5
                 int edit_car_index = CarsList.FindIndex(m => m.CarID == int.Parse(CarIdBox.Text));
                 //
-                var rentalCar = new RentalCarVm();
+                var rentalCar = _carService.GetById(CarsList[edit_car_index].Id);
                 rentalCar.CarID = int.Parse(CarIdBox.Text);
                 rentalCar.CarName = CarNameBox.Text;
                 rentalCar.Description = CarDesBox.Text;
                 rentalCar.RentPrice = int.Parse(CarPriceBox.Text);
                 rentalCar.IsAvailable = bool.Parse(CarIsAvBox.Text);
                 rentalCar.CarImagePath = CarsList[edit_car_index].CarImagePath;
+                rentalCar.Id = CarsList[edit_car_index].Id;
                 CarsList[edit_car_index] = rentalCar;
-                FileExtension.SaveToFile(CarsList);
+                _carService.UpDate(rentalCar);
                 MessageBox.Show("Changes have been saved", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (FormatException ex)

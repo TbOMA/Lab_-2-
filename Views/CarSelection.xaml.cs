@@ -3,10 +3,10 @@ using System.Windows.Media;
 using Lab_2.Models;
 using Lab__2_.Extensions;
 using System.Collections.Generic;
-using Lab__2_.Views;
 using System.Windows.Media.Imaging;
 using System;
 using Lab__2_.Services;
+using Lab__2_.Database;
 
 namespace Lab__2_
 {
@@ -18,13 +18,25 @@ namespace Lab__2_
         int current_page = 1;
         private ClientVm _client;
         public static List<RentalCarVm> CarslList;
-        private readonly ICarService carService;
-        public CarSelection(ClientVm client,ICarService carService)
+        public List<OrderVm> OrderList;
+        private readonly ICarService _carService;
+        private readonly IClientService _clientService;
+        private readonly IOrderService _orderService;
+        private readonly ApplicationContext _applicationContext;
+        public static List<ClientVm> BlackList;
+        public delegate bool WithdrawDelegate(decimal amount);
+        public CarSelection(ClientVm client,ICarService carService,IClientService clientService)
         {
             InitializeComponent();
+            CarslList = carService.GetAll();
+            
             _client = client;
-            CarslList = FileExtension.GetCarFromFile("carlist.json");
-            this.carService = carService;
+            _clientService = clientService;
+            _carService = carService;
+            _applicationContext = new ApplicationContext();
+            _orderService = new OrderService(_applicationContext);
+            BlackList = new List<ClientVm>();
+            OrderList = _orderService.GetAll();
         }
        
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -61,11 +73,11 @@ namespace Lab__2_
         }
         private void ChooseBtn_Click(object sender, RoutedEventArgs e)
         {   
-            for (int k = 0; k < OrderVm.orders.Count; k++)
+            for (int k = 0; k < OrderList.Count; k++)
             {
-                if (OrderVm.orders[k].ClientID == _client.ClientID )
+                if (OrderList[k].ClientID == _client.ClientID)
                 {
-                    MessageBoxResult result = MessageBox.Show("You have already placed an order", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("You have already placed an order", "", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
@@ -85,10 +97,11 @@ namespace Lab__2_
                 label5.Content = "Enter the number of rental days:";
                 label5.Margin = new Thickness(70, 280, 0, 0);
                 CarPriceBox.Text = "";
+
             }
             else
             {
-                MessageBoxResult result = MessageBox.Show("This car is currently unavailable", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("This car is currently unavailable", "", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void NextBtn_Click(object sender, RoutedEventArgs e)
@@ -106,35 +119,27 @@ namespace Lab__2_
         }
         private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
-            int selectedcar = current_page;
-            for (int j = 1; j <= CarslList.Count; j++)
-            {
-                RentalCarVm machine = CarslList.Find(m => m.CarID == j);
-                if (selectedcar == machine.CarID)
-                {
-                    if (machine.IsAvailable)
-                    {
-                        machine.IsAvailable = false;
-                        int rentdays = int.Parse(CarPriceBox.Text);
-                        ClientVm client = ClientVm.clientlist.Find(m => m.ClientID == _client.ClientID);
-                        OrderVm carorder = new OrderVm();
-                        carorder.CarID = machine.CarID;
-                        carorder.RentalTime = rentdays;
-                        carorder.ClientID = client.ClientID;
-                        carorder.FullName = client.UserName;
-                        carorder.PassportNumber = client.PassportNumber;
-                        carorder.TotalAmount = machine.RentPrice * rentdays;
-                        OrderVm.orders.Add(carorder);
-                        MessageBoxResult result = MessageBox.Show("Your order has been placed.","", MessageBoxButton.OK, MessageBoxImage.Information);
-                        FileExtension.SaveToFile(CarslList);
-                        break;
-                    }
-                }
-            }
+            CarslList[current_page-1].IsAvailable = false;
+            int rentdays = int.Parse(CarPriceBox.Text);
+            var ClientsList = _clientService.GetAll();
+            ClientVm client = ClientsList.Find(m => m.ClientID == _client.ClientID);
+            OrderVm carorder = new OrderVm();
+            carorder.CarID = CarslList[current_page-1].CarID;
+            carorder.RentalTime = rentdays;
+            carorder.ClientID = client.ClientID;
+            carorder.FullName = client.Username;
+            carorder.PassportNumber = client.PassportNumber;
+            carorder.TotalAmount = CarslList[current_page-1].RentPrice * rentdays;
+            OrderList.Add(carorder);
+            _orderService.Create(carorder);
+            MessageBox.Show("Your order has been placed.","", MessageBoxButton.OK, MessageBoxImage.Information);
+            _carService.UpDate(CarslList[current_page-1]);
         }
         private void ShowOrders_Click(object sender, RoutedEventArgs e)
         {   
-            OrderVm rentorder =  OrderVm.orders.Find(m => m.ClientID == _client.ClientID);
+
+
+            OrderVm rentorder =  OrderList.Find(m => m.ClientID == _client.ClientID);
             if (rentorder != null && rentorder.IsApproved  ) 
             {
                 PrevBtn.Visibility = Visibility.Collapsed;
@@ -160,20 +165,57 @@ namespace Lab__2_
                 MessageBoxResult result = MessageBox.Show($"You have not placed any orders", "", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        public bool Withdraw(decimal amount)
+        {
+            if (_client.Balance >= amount)
+            {
+                var ClientList = _clientService.GetAll();
+                _client = ClientList.Find(x => x.ClientID == _client.ClientID);
+                _client.Balance -= amount;
+                _clientService.UpDate(_client);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         private void PayBtn_Click(object sender, RoutedEventArgs e)
         {
-            OrderVm rentorder = OrderVm.orders.Find(m => m.ClientID == _client.ClientID);
-            if ((_client.Balance = _client.Balance - rentorder.TotalAmount) > 0)
+            OrderVm rentorder = OrderList.Find(m => m.ClientID == _client.ClientID);
+            var withdrawDelegate = new WithdrawDelegate(Withdraw);
+            if (withdrawDelegate(rentorder.TotalAmount))
             {
                 rentorder.IsPaid = true;
                 PayBtn.IsEnabled = false;
-                MessageBoxResult result = MessageBox.Show("Payment was successful", "", MessageBoxButton.OK, MessageBoxImage.Information);
-                ShowOrdersPage.FastDriving(rentorder,_client);
+                MessageBox.Show("Payment was successful", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                FastDriving(rentorder,_client);
             }
             else
             {
                 rentorder.IsPaid = false;
                 MessageBoxResult result = MessageBox.Show("Insufficient funds to pay", "", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        public void FastDriving(OrderVm order, ClientVm _client)
+        {
+            MessageBoxResult fastdriving = MessageBox.Show("You want to drive very fast?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (fastdriving == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("You crashed the car, pay the fine", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                RentalCarVm machine = CarslList.Find(m => m.CarID == order.CarID);
+                machine =  _carService.GetById(machine.Id);
+                machine.IsDamaged = true;
+                _carService.UpDate(machine);
+                var withdrawDelegate = new WithdrawDelegate(Withdraw);
+
+                if (withdrawDelegate(order.TotalAmount * 2))
+                {
+                    MessageBox.Show("You don't have enough funds, you are blacklisted", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    BlackList = FileExtension.GetBlacklistFile();
+                    BlackList.Add(_client);
+                    FileExtension.SaveToFile(BlackList);
+                }
             }
         }
         private void Exittn_Click(object sender, RoutedEventArgs e)

@@ -6,6 +6,8 @@ using Lab__2_.Extensions;
 using System;
 using Lab__2_.Services;
 using System.Windows.Media;
+using Lab__2_.Database;
+using System.Collections.Generic;
 
 namespace Lab__2_
 {
@@ -14,21 +16,30 @@ namespace Lab__2_
     /// </summary>
     public partial class MainWindow : Window
     {
-       private readonly ICarService carService;
+        private readonly ICarService _carService;
+        private readonly IClientService _clientService;
+        private readonly IOrderService _orderService;
+        private readonly ApplicationContext _applicationContext;
+        public List<ClientVm> ClientsList;
         public MainWindow()
         {
             InitializeComponent();
-             //Task 2.10
-             object[] objects = new object[6];
-             // Створення об'єктів різних класів і запис їх в масив
-             objects[0] = new ClientVm();
-             objects[1] = new CarsVm();
-             objects[2] = new RentalCarVm();
-             objects[3] = new RentalFormVm();
-             objects[4] = new OrderVm();
-             objects[5] = new AdministratorVm();
+            //Task 2.10
+            object[] objects = new object[6];
+            // Створення об'єктів різних класів і запис їх в масив
+            objects[0] = new ClientVm();
+            objects[1] = new CarsVm();
+            objects[2] = new RentalCarVm();
+            objects[3] = new RentalFormVm();
+            objects[4] = new OrderVm();
+            objects[5] = new AdministratorVm();
             //
-            carService = new CarSevice();
+
+            _applicationContext = new ApplicationContext();
+            _carService = new CarSevice(_applicationContext);
+            _clientService = new ClientService(_applicationContext);
+            _orderService = new OrderService(_applicationContext);
+            ClientsList = _clientService.GetAll();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -64,7 +75,7 @@ namespace Lab__2_
             try
             {
                 if (Isblacklisted()) return;
-                ClientVm client = ClientVm.clientlist.Find(m => m.ClientID == int.Parse(IdBox.Text));
+                ClientVm client = ClientsList.Find(m => m.ClientID == int.Parse(IdBox.Text));
                 if (client != null)
                 {
                     MessageBoxResult result = MessageBox.Show("Such a client is already registered", "", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -72,12 +83,13 @@ namespace Lab__2_
                 else
                 {
                     ClientVm client_ = new ClientVm();
-                    client_.UserName = usernameTextBox.Text;
+                    client_.Username = usernameTextBox.Text;
                     client_.PassportNumber = PassportBox.Text;
                     client_.ClientID = int.Parse(IdBox.Text);
                     client_.Balance = decimal.Parse(DepositBox.Text);
-                    ClientVm.clientlist.Add(client_);
-                    CarSelection carselection = new CarSelection(client_,carService);
+                    ClientsList.Add(client_);
+                    _clientService.Create(client_);
+                    CarSelection carselection = new CarSelection(client_,_carService, _clientService);
                     //Task 3.2
                     carselection.Closed += (s, args) => Show();
                     //
@@ -99,11 +111,11 @@ namespace Lab__2_
             {
                 if (Isblacklisted()) return;
                 //Task 3.5
-                ClientVm client = ClientVm.clientlist.Find(m => m.ClientID == int.Parse(IdBox.Text));
+                ClientVm client = ClientsList.Find(m => m.ClientID == int.Parse(IdBox.Text));
                 //
                 if (client != null)
                 {
-                    CarSelection carselection = new CarSelection(client, carService);
+                    CarSelection carselection = new CarSelection(client, _carService, _clientService);
                     carselection.Closed += (s, args) => Show();
                     Hide();
                     CancelMetod();
@@ -131,7 +143,7 @@ namespace Lab__2_
             var admins_data = JsonSerializer.Deserialize<AdministratorVm>(jsonString, options);
             if (admins_data.Password == admin.Password && admins_data.UserName == admin.UserName)
             {
-                AdminForm adminForm = new AdminForm(carService);
+                AdminForm adminForm = new AdminForm(_carService);
                 adminForm.Closed += (s, args) => Show();
                 Hide();
                 CancelMetod();
@@ -148,11 +160,15 @@ namespace Lab__2_
         }
         public void CarsAvailable()
         {
-            var carslist = FileExtension.GetCarFromFile("carlist.json");
-            for (int i = 0; i < carslist.Count; i++) { carslist[i].IsAvailable = true; carslist[i].IsDamaged = false; }
-            FileExtension.SaveToFile(carslist);
+            List<RentalCarVm> rentalCarList = _carService.GetAll();
+            for (int i = 0; i < rentalCarList.Count; ++i)
+            {   
+                rentalCarList[i].IsAvailable = true;
+                rentalCarList[i].IsDamaged = false;
+                _carService.UpDate(rentalCarList[i]);
+            }
         }
-        private void Window_Closed(object sender, System.EventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
             CarsAvailable();
         }
