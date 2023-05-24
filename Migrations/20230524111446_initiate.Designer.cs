@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab__2_.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230512140251_makeAllFieldsNulleble")]
-    partial class makeAllFieldsNulleble
+    [Migration("20230524111446_initiate")]
+    partial class initiate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,7 @@ namespace Lab__2_.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdministratorID");
@@ -50,9 +50,6 @@ namespace Lab__2_.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CarID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -87,13 +84,12 @@ namespace Lab__2_.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
-
                     b.Property<string>("PassportNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -109,6 +105,12 @@ namespace Lab__2_.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RentalFormID"));
 
+                    b.Property<int>("CarID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -119,16 +121,15 @@ namespace Lab__2_.Migrations
                     b.Property<bool>("IsConsidered")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
                     b.Property<string>("RejectionReason")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("RentalFormID");
+
+                    b.HasIndex("CarID");
+
+                    b.HasIndex("ClientID");
 
                     b.ToTable("RentalForm");
 
@@ -157,22 +158,40 @@ namespace Lab__2_.Migrations
                 {
                     b.HasBaseType("Lab_2.Models.RentalFormVm");
 
-                    b.Property<int>("CarID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PassportNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RentalTime")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasDiscriminator().HasValue("OrderVm");
+                });
+
+            modelBuilder.Entity("Lab_2.Models.RentalFormVm", b =>
+                {
+                    b.HasOne("Lab_2.Models.CarsVm", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lab_2.Models.ClientVm", "Client")
+                        .WithMany("ClientOrders")
+                        .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Lab_2.Models.ClientVm", b =>
+                {
+                    b.Navigation("ClientOrders");
                 });
 #pragma warning restore 612, 618
         }

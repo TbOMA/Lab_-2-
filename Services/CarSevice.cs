@@ -39,7 +39,7 @@ namespace Lab__2_.Services
                 {
                     return false;
                 }
-                dbrecord.CarID = rentalCarVm.CarID;
+               // dbrecord.CarID = rentalCarVm.CarID;
                 dbrecord.CarName = rentalCarVm.CarName;
                 dbrecord.RentPrice = rentalCarVm.RentPrice;
                 dbrecord.IsAvailable = rentalCarVm.IsAvailable;
@@ -78,7 +78,7 @@ namespace Lab__2_.Services
         {
             var rental_car = new RentalCarVm
             {
-                CarID = int.Parse(ID),
+                //CarID = int.Parse(ID),
                 CarName = Name,
                 Description = Description,
                 RentPrice = int.Parse(Price),

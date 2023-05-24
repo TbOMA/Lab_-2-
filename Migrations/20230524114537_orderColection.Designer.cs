@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab__2_.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230509164957_initCreate")]
-    partial class initCreate
+    [Migration("20230524114537_orderColection")]
+    partial class orderColection
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,9 @@ namespace Lab__2_.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdministratorID"));
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdministratorID");
@@ -52,9 +50,6 @@ namespace Lab__2_.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CarID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -89,14 +84,11 @@ namespace Lab__2_.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
-
                     b.Property<string>("PassportNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -113,6 +105,12 @@ namespace Lab__2_.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RentalFormID"));
 
+                    b.Property<int>("CarID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,17 +121,13 @@ namespace Lab__2_.Migrations
                     b.Property<bool>("IsConsidered")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
                     b.Property<string>("RejectionReason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("RentalFormID");
+
+                    b.HasIndex("CarID");
 
                     b.ToTable("RentalForm");
 
@@ -147,15 +141,12 @@ namespace Lab__2_.Migrations
                     b.HasBaseType("Lab_2.Models.CarsVm");
 
                     b.Property<string>("CarImagePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("RentalCarVm");
@@ -165,24 +156,45 @@ namespace Lab__2_.Migrations
                 {
                     b.HasBaseType("Lab_2.Models.RentalFormVm");
 
-                    b.Property<int>("CarID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PassportNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RentalTime")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasIndex("ClientID");
+
                     b.HasDiscriminator().HasValue("OrderVm");
+                });
+
+            modelBuilder.Entity("Lab_2.Models.RentalFormVm", b =>
+                {
+                    b.HasOne("Lab_2.Models.CarsVm", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("Lab_2.Models.OrderVm", b =>
+                {
+                    b.HasOne("Lab_2.Models.ClientVm", "Client")
+                        .WithMany("ClientOrders")
+                        .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Lab_2.Models.ClientVm", b =>
+                {
+                    b.Navigation("ClientOrders");
                 });
 #pragma warning restore 612, 618
         }

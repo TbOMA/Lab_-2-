@@ -11,7 +11,6 @@ namespace Lab__2_.Database
         public DbSet<RentalCarVm> RentalCars { get; set;}
         public DbSet<RentalFormVm> RentalForm { get; set; }
         public DbSet<OrderVm> Order { get; set; }
-        
         public ApplicationContext()
         {
             Database.Migrate();
@@ -20,6 +19,5 @@ namespace Lab__2_.Database
         {
             optionsBuilder.UseSqlServer(@"Data Source=localhost;Database=Lab_4;Trusted_Connection=True;TrustServerCertificate=True;");
         }
-        
     }
 }

@@ -5,7 +5,7 @@
 namespace Lab__2_.Migrations
 {
     /// <inheritdoc />
-    public partial class initCreate : Migration
+    public partial class initiate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace Lab__2_.Migrations
                 {
                     AdministratorID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,6 @@ namespace Lab__2_.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CarID = table.Column<int>(type: "int", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     RentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsDamaged = table.Column<bool>(type: "bit", nullable: false),
@@ -50,8 +49,7 @@ namespace Lab__2_.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PassportNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -67,21 +65,41 @@ namespace Lab__2_.Migrations
                     RentalFormID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    ClientID = table.Column<int>(type: "int", nullable: false),
                     RejectionReason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
                     IsConsidered = table.Column<bool>(type: "bit", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CarID = table.Column<int>(type: "int", nullable: true),
                     RentalTime = table.Column<int>(type: "int", nullable: true),
-                    ClientID = table.Column<int>(type: "int", nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PassportNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RentalForm", x => x.RentalFormID);
+                    table.ForeignKey(
+                        name: "FK_RentalForm_Cars_CarID",
+                        column: x => x.CarID,
+                        principalTable: "Cars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RentalForm_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalForm_CarID",
+                table: "RentalForm",
+                column: "CarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalForm_ClientID",
+                table: "RentalForm",
+                column: "ClientID");
         }
 
         /// <inheritdoc />
@@ -91,13 +109,13 @@ namespace Lab__2_.Migrations
                 name: "Administrators");
 
             migrationBuilder.DropTable(
+                name: "RentalForm");
+
+            migrationBuilder.DropTable(
                 name: "Cars");
 
             migrationBuilder.DropTable(
                 name: "Clients");
-
-            migrationBuilder.DropTable(
-                name: "RentalForm");
         }
     }
 }

@@ -8,7 +8,12 @@
         Title="CarSelection" MaxHeight="450" MinHeight="450" MaxWidth="800" MinWidth="800"
         Loaded="Window_Loaded">
     <Grid x:Name="Grid_">
-        <Button x:Name="PayBtn" Content="Pay" Margin="292,340,400,29" Click="PayBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" />
+        <Grid>
+            <Frame x:Name="ClientOrdersPage">
+
+            </Frame>
+        </Grid>
+        <!--<Button x:Name="PayBtn" Content="Pay" Margin="292,340,400,29" Click="PayBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed" />-->
         <Button x:Name="OrderBtn" Content="Make order" Margin="292,340,400,29" Click="OrderBtn_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
         <Button x:Name="ChooseBtn" Content="Choose" Margin="292,340,400,29" Click="ChooseBtn_Click" BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>
         <Button x:Name="ShowOrders" Content="Show orders" Margin="19,339,673,30" Click="ShowOrders_Click"  BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontSize="18" FontFamily="Bahnschrift SemiBold Condensed"/>

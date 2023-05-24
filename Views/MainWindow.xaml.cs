@@ -43,16 +43,25 @@ namespace Lab__2_
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-             Background = Brushes.LightGray;
-             Labels.Visibility = Visibility.Collapsed;
-             TextBoxs.Visibility = Visibility.Collapsed;
-             SignUp_Client.Visibility = Visibility.Collapsed;
-             cancelButton.Visibility = Visibility.Collapsed;
-             sign_in_admin.Visibility = Visibility.Collapsed;
-             cancelButton.Visibility = Visibility.Collapsed;
-             SignUpClientChoose.Visibility = Visibility.Collapsed;
-             SignInClientChoose.Visibility = Visibility.Collapsed;
-             SignIn_Client.Visibility = Visibility.Collapsed;
+            /*var client_ = new ClientVm { ClientID = 11, Balance = 5000 };
+            CarSelection carselection = new CarSelection(client_, _carService, _clientService);
+            //Task 3.2
+            carselection.Closed += (s, args) => Show();
+            //
+            Hide();
+            CancelMetod();
+            carselection.ShowDialog();*/
+
+            Background = Brushes.LightGray;
+            Labels.Visibility = Visibility.Collapsed;
+            TextBoxs.Visibility = Visibility.Collapsed;
+            SignUp_Client.Visibility = Visibility.Collapsed;
+            cancelButton.Visibility = Visibility.Collapsed;
+            sign_in_admin.Visibility = Visibility.Collapsed;
+            cancelButton.Visibility = Visibility.Collapsed;
+            SignUpClientChoose.Visibility = Visibility.Collapsed;
+            SignInClientChoose.Visibility = Visibility.Collapsed;
+            SignIn_Client.Visibility = Visibility.Collapsed;
         }
         public bool Isblacklisted()
         {
@@ -61,9 +70,9 @@ namespace Lab__2_
                 var blacklist =  FileExtension.GetBlacklistFile();
                 for (int i = 0; i < blacklist.Count; i++)
                 {
-                    if (blacklist[i].ClientID == int.Parse(IdBox.Text))
+                    if (blacklist[i].PassportNumber == PassportBox.Text)
                     {
-                        MessageBoxResult result = MessageBox.Show("You are blacklisted!", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("You are blacklisted!", "", MessageBoxButton.OK, MessageBoxImage.Error);
                         return true;
                     }
                 }
@@ -75,7 +84,7 @@ namespace Lab__2_
             try
             {
                 if (Isblacklisted()) return;
-                ClientVm client = ClientsList.Find(m => m.ClientID == int.Parse(IdBox.Text));
+                ClientVm client = ClientsList.Find(m => m.PassportNumber == PassportBox.Text);
                 if (client != null)
                 {
                     MessageBoxResult result = MessageBox.Show("Such a client is already registered", "", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -85,7 +94,7 @@ namespace Lab__2_
                     ClientVm client_ = new ClientVm();
                     client_.Username = usernameTextBox.Text;
                     client_.PassportNumber = PassportBox.Text;
-                    client_.ClientID = int.Parse(IdBox.Text);
+                    //client_.ClientID = int.Parse(IdBox.Text);
                     client_.Balance = decimal.Parse(DepositBox.Text);
                     ClientsList.Add(client_);
                     _clientService.Create(client_);
@@ -111,7 +120,7 @@ namespace Lab__2_
             {
                 if (Isblacklisted()) return;
                 //Task 3.5
-                ClientVm client = ClientsList.Find(m => m.ClientID == int.Parse(IdBox.Text));
+                ClientVm client = ClientsList.Find(m => m.PassportNumber == IdBox.Text);
                 //
                 if (client != null)
                 {
@@ -136,12 +145,12 @@ namespace Lab__2_
         {
             AdministratorVm admin = new AdministratorVm();
             string filepath = "admindata.json";
-            admin.UserName = IdBox.Text;
+            admin.Username = IdBox.Text;
             admin.Password = DepositBox.Text;
             string jsonString = File.ReadAllText(filepath);
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var admins_data = JsonSerializer.Deserialize<AdministratorVm>(jsonString, options);
-            if (admins_data.Password == admin.Password && admins_data.UserName == admin.UserName)
+            if (admins_data.Password == admin.Password && admins_data.Username == admin.Username)
             {
                 AdminForm adminForm = new AdminForm(_carService);
                 adminForm.Closed += (s, args) => Show();

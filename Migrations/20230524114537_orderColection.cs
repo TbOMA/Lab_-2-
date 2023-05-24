@@ -5,7 +5,7 @@
 namespace Lab__2_.Migrations
 {
     /// <inheritdoc />
-    public partial class deleteIdRentalCarVm : Migration
+    public partial class orderColection : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

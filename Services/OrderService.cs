@@ -43,11 +43,11 @@ namespace Lab__2_.Services
                 dbrecord.IsPaid = orderVm.IsPaid;
                 dbrecord.IsConsidered = orderVm.IsConsidered;
                 dbrecord.RejectionReason = orderVm.RejectionReason;
-                dbrecord.CarID = orderVm.CarID;
+                //dbrecord.Car.CarID = orderVm.Car.CarID;
                 dbrecord.RentalTime = orderVm.RentalTime;
-                dbrecord.ClientID =  orderVm.ClientID;
-                dbrecord.FullName = orderVm.FullName;
-                dbrecord.PassportNumber = orderVm.PassportNumber;
+                //dbrecord.Client.ClientID =  orderVm.Client.ClientID;
+                dbrecord.Client.Username = orderVm.Client.Username;
+                dbrecord.Client.PassportNumber = orderVm.Client.PassportNumber;
                 _applicationContext.SaveChanges();
                 return true;
             }

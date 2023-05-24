@@ -38,7 +38,7 @@ namespace Lab__2_.Services
                 {
                     return false;
                 }
-                dbrecord.ClientID = clientVm.ClientID;
+                //dbrecord.ClientID = clientVm.ClientID;
                 dbrecord.Username = clientVm.Username;
                 dbrecord.PassportNumber = clientVm.PassportNumber;
                 dbrecord.Balance = clientVm.Balance;

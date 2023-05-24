@@ -3,6 +3,7 @@ using Lab__2_.Services;
 using Lab_2.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,6 +25,7 @@ namespace Lab__2_.Views
             _applicationContext = new ApplicationContext();
             _orderService = new OrderService(_applicationContext);
             OrderList = _orderService.GetAll();
+            OrderList.GroupBy(s => s.TotalAmount);
         }
         int current_page = 1;
         public void PrintOrders(int current_order)
@@ -31,11 +33,11 @@ namespace Lab__2_.Views
             //Task 3.5
             Action assignOrderValues = () =>
             {
-                CarIdBox.Text = OrderList[current_order].CarID.ToString();
-                ClientIdBox.Text = OrderList[current_order].ClientID.ToString();
+                CarIdBox.Text = OrderList[current_order].Car.Id.ToString();
+                ClientIdBox.Text = OrderList[current_order].Client.Id.ToString();
                 RentTimeBox.Text = OrderList[current_order].RentalTime.ToString();
-                FullNameBox.Text = OrderList[current_order].FullName;
-                PassportBox.Text = OrderList[current_order].PassportNumber.ToString();
+                FullNameBox.Text = OrderList[current_order].Client.Username;
+                PassportBox.Text = OrderList[current_order].Client.PassportNumber.ToString();
                 Is_ApprovBox.Text = OrderList[current_order].IsApproved.ToString();
                 AmountBox.Text = OrderList[current_order].TotalAmount.ToString();
                 IsPaidBox.Text = OrderList[current_order].IsPaid.ToString();
@@ -109,6 +111,7 @@ namespace Lab__2_.Views
             ConfirmBtn.IsEnabled = false;
             label10.Visibility = Visibility.Visible;
             OrderList[current_page - 1].IsApproved = true;
+            OrderList[current_page - 1].IsConsidered = true;
             OrderList[current_page - 1].RejectionReason = "-";
             _orderService.UpDate(OrderList[current_page - 1]);
             Is_ApprovBox.Text = OrderList[current_page - 1].IsApproved.ToString();
@@ -138,7 +141,7 @@ namespace Lab__2_.Views
         public void CrashInfo(int current_car)
         {
             var carslist = _carService.GetAll();
-            RentalCarVm machine = carslist.Find(m => m.CarID == OrderList[current_car].CarID);
+            RentalCarVm machine = carslist.Find(m => m.Id == OrderList[current_car].Car.Id);
             if (machine.IsDamaged)
             {
                 label11.Visibility = Visibility.Visible;

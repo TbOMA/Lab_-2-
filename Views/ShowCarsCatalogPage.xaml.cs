@@ -37,7 +37,7 @@ namespace Lab__2_.Views
             //Task 3.5
             Action assignOrderValues = () =>
             {
-                CarIdBox.Text = CarsList[current_car].CarID.ToString();
+                CarIdBox.Text = CarsList[current_car].Id.ToString();
                 CarNameBox.Text = CarsList[current_car].CarName.ToString();
                 CarDesBox.Text = CarsList[current_car].Description.ToString();
                 CarIsAvBox.Text = CarsList[current_car].IsAvailable.ToString();
@@ -83,10 +83,10 @@ namespace Lab__2_.Views
             try
             {
                 //Task 3.5
-                int edit_car_index = CarsList.FindIndex(m => m.CarID == int.Parse(CarIdBox.Text));
+                int edit_car_index = CarsList.FindIndex(m => m.Id == int.Parse(CarIdBox.Text));
                 //
                 var rentalCar = _carService.GetById(CarsList[edit_car_index].Id);
-                rentalCar.CarID = int.Parse(CarIdBox.Text);
+                //rentalCar.CarID = int.Parse(CarIdBox.Text);
                 rentalCar.CarName = CarNameBox.Text;
                 rentalCar.Description = CarDesBox.Text;
                 rentalCar.RentPrice = int.Parse(CarPriceBox.Text);

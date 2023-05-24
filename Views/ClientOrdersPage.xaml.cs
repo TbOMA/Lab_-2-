@@ -30,83 +30,116 @@ namespace Lab__2_.Views
         private readonly ICarService _carService;
         private readonly IClientService _clientService;
         private readonly ApplicationContext _applicationContext;
-        public List<OrderVm> ClientOrders;
         public List<RentalCarVm> CarslList;
+        public List<OrderVm> ClientOrders;
         private ClientVm _client;
         public delegate bool WithdrawDelegate(decimal amount);
         public ClientOrdersPage(ICarService carService,ClientVm client)
         {
             InitializeComponent();
-            ClientOrders = new List<OrderVm>();
             _applicationContext = new ApplicationContext();
             _orderService = new OrderService(_applicationContext);
             _carService = carService;
             _clientService = new ClientService(_applicationContext);   
             _client = client;
             CarslList = _carService.GetAll();
+            ClientOrders = new List<OrderVm>();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            label6.Visibility = Visibility.Collapsed;
             var allOrders = _orderService.GetAll();
             for (int i = 0; i < allOrders.Count; i++)
             {
-                if (allOrders[i].ClientID == _client.ClientID)
+                if (allOrders[i].Client.Id == _client.Id)
                 {
                     ClientOrders.Add(allOrders[i]);
                 }
             }
-
+            CheckIsApproved(0);
             if (ClientOrders != null)
             {
-                RentalCarVm machine = CarslList.Find(m => m.CarID == ClientOrders[0].CarID);
-                CarImage.Source = new BitmapImage(new Uri(machine.CarImagePath));
-                CarPriceBox.Clear();
+                RentalCarVm machine = CarslList.Find(m => m.Id == ClientOrders[0].Car.Id);
+                PrintOrders(machine.Id);
+                PrevBtn.IsEnabled = false;
+                CheckIsPaid(0);
             }
+        }
 
-            /*else if (ClientOrders != null)
+        private void CheckIsApproved(int current_page)
+        {
+           if (ClientOrders != null && !ClientOrders[current_page].IsApproved)
             {
-                //MessageBoxResult result = MessageBox.Show($"Admin rejects your order : {rentorder.RejectionReason}", "", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            }*/
+                label6.Visibility = Visibility.Visible;
+                PayBtn.IsEnabled = false;
+                label6.Content = $"Admin rejects your order : {ClientOrders[current_page].RejectionReason}";
+            }
             else
             {
-                MessageBoxResult result = MessageBox.Show($"You have not placed any orders", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                label6.Visibility = Visibility.Collapsed;
+                //label6.Content = "You have not placed any orders";
             }
+        }
 
+        private void CheckIsPaid(int current_page)
+        {
+            if (ClientOrders[current_page].IsPaid)
+            {
+                PayBtn.IsEnabled = false;
+            }
+            else
+            {
+                PayBtn.IsEnabled = true;
+            }
+        }
+
+        public void PrintOrders(int carId)
+        {
+            var rentalCar = CarslList.Find(m => m.Id == carId);
+            CarIdBox.Text = rentalCar.Id.ToString();
+            CarNameBox.Text = rentalCar.CarName.ToString();
+            CarDesBox.Text = rentalCar.Description.ToString();
+            CarIsAvBox.Text = rentalCar.IsAvailable.ToString();
+            CarPriceBox.Text = rentalCar.RentPrice.ToString();
+            CarImage.Source = new BitmapImage(new Uri(rentalCar.CarImagePath));
         }
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
             if (current_page > 0) { PrevBtn.IsEnabled = true; }
-            if (current_page <= CarslList.Count - 1)
+            if (current_page <= ClientOrders.Count - 1)
             {
-                CarImage.Source = new BitmapImage(new Uri(CarslList[current_page].CarImagePath));
+                PrintOrders(ClientOrders[current_page].Car.Id);
                 current_page++;
-                if (current_page >= CarslList.Count)
+                if (current_page >= ClientOrders.Count || ClientOrders.Count == 2)
                 {
                     NextBtn.IsEnabled = false;
                 }
+                CheckIsPaid(current_page-1);
+                CheckIsApproved(current_page-1);
+
             }
         }
-
         private void PayBtn_Click(object sender, RoutedEventArgs e)
         {
-            OrderVm rentorder = ClientOrders.Find(m => m.ClientID == _client.ClientID);
-            var withdrawDelegate = new WithdrawDelegate(Withdraw);
-            if (withdrawDelegate(rentorder.TotalAmount))
+            if (!ClientOrders[current_page-1].IsPaid)
             {
-                rentorder.IsPaid = true;
-                PayBtn.IsEnabled = false;
-                MessageBox.Show("Payment was successful", "", MessageBoxButton.OK, MessageBoxImage.Information);
-                FastDriving(rentorder, _client);
-            }
-            else
-            {
-                rentorder.IsPaid = false;
-                MessageBoxResult result = MessageBox.Show("Insufficient funds to pay", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                var withdrawDelegate = new WithdrawDelegate(Withdraw);
+                if (withdrawDelegate(ClientOrders[current_page - 1].TotalAmount))
+                {
+                    ClientOrders[current_page - 1].IsPaid = true;
+                    PayBtn.IsEnabled = false;
+                    MessageBox.Show("Payment was successful", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    FastDriving(ClientOrders[current_page - 1], _client);
+                }
+                else
+                {
+                    ClientOrders[current_page - 1].IsPaid = false;
+                    MessageBox.Show("Insufficient funds to pay", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                _orderService.UpDate(ClientOrders[current_page - 1]);
             }
         }
-
         private void PrevBtn_Click(object sender, RoutedEventArgs e)
         {
             --current_page;
@@ -115,15 +148,16 @@ namespace Lab__2_.Views
             {
                 PrevBtn.IsEnabled = false;
             }
-
-            CarImage.Source = new BitmapImage(new Uri(CarslList[current_page-1].CarImagePath));
+            PrintOrders(ClientOrders[current_page-1].Car.Id);
+            CheckIsPaid(current_page - 1);
+            CheckIsApproved(current_page-1);
         }
         public bool Withdraw(decimal amount)
         {
             if (_client.Balance >= amount)
             {
                 var ClientList = _clientService.GetAll();
-                _client = ClientList.Find(x => x.ClientID == _client.ClientID);
+                _client = ClientList.Find(x => x.Id == _client.Id);
                 _client.Balance -= amount;
                 _clientService.UpDate(_client);
                 return true;
@@ -139,7 +173,7 @@ namespace Lab__2_.Views
             if (fastdriving == MessageBoxResult.Yes)
             {
                 MessageBox.Show("You crashed the car, pay the fine", "", MessageBoxButton.OK, MessageBoxImage.Information);
-                RentalCarVm machine = CarslList.Find(m => m.CarID == order.CarID);
+                RentalCarVm machine = CarslList.Find(m => m.Id == order.Car.Id);
                 machine = _carService.GetById(machine.Id);
                 machine.IsDamaged = true;
                 _carService.UpDate(machine);

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lab_2.Models
 {
@@ -7,9 +8,15 @@ namespace Lab_2.Models
         [Key]
         public int RentalFormID { get; set; }
         public bool IsApproved { get; set; }
-        public string ? RejectionReason { get; set; }
-        public decimal TotalAmount { get; set; }
-        public bool IsPaid { get; set; }
+
+        [ForeignKey("Car")]
+        public CarsVm Car { get; set; }
+
+        [ForeignKey("Client")]
+        public ClientVm Client { get; set; }
+
+        public string RejectionReason { get; set; }
         public bool IsConsidered { get; set; }
     }
+
 }

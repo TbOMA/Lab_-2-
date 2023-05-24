@@ -1,11 +1,13 @@
-﻿namespace Lab_2.Models
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Lab_2.Models
 {
     public class OrderVm : RentalFormVm
     {
-        public int CarID { get; set; }
+       
         public int RentalTime { get; set; }
-        public int ClientID { get; set; }
-        public string ? FullName { get; set; }
-        public string ? PassportNumber { get; set; }   
+        public decimal TotalAmount { get; set; }
+        public bool IsPaid { get; set; }
     }
 }
