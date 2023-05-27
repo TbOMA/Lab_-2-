@@ -9,9 +9,11 @@ namespace Lab_2.Models
         [Key]
         public int Id { get; set; }
        // public int ClientID { get; set; }   
-        public string Username { get; set; }
-        public string PassportNumber { get; set; }
+        public string? Username { get; set; }
+        public string? PassportNumber { get; set; }
         public decimal Balance { get; set; }
-        public ICollection<OrderVm> ClientOrders { get; set; }
+        public int? RentalFormVmId { get; set; }
+        public RentalFormVm RentalFormVm { get; set; }
+        public ICollection<RentalFormVm> ClientOrders { get; set; }
     }
 }

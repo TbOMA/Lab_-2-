@@ -18,7 +18,6 @@ namespace Lab__2_
     {
         private readonly ICarService _carService;
         private readonly IClientService _clientService;
-        private readonly IOrderService _orderService;
         private readonly ApplicationContext _applicationContext;
         public List<ClientVm> ClientsList;
         public MainWindow()
@@ -38,20 +37,11 @@ namespace Lab__2_
             _applicationContext = new ApplicationContext();
             _carService = new CarSevice(_applicationContext);
             _clientService = new ClientService(_applicationContext);
-            _orderService = new OrderService(_applicationContext);
             ClientsList = _clientService.GetAll();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            /*var client_ = new ClientVm { ClientID = 11, Balance = 5000 };
-            CarSelection carselection = new CarSelection(client_, _carService, _clientService);
-            //Task 3.2
-            carselection.Closed += (s, args) => Show();
-            //
-            Hide();
-            CancelMetod();
-            carselection.ShowDialog();*/
-
+            
             Background = Brushes.LightGray;
             Labels.Visibility = Visibility.Collapsed;
             TextBoxs.Visibility = Visibility.Collapsed;

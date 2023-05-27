@@ -18,13 +18,13 @@ namespace Lab__2_.Views
         private readonly IOrderService _orderService;
         private  readonly ApplicationContext _applicationContext;
         public List<OrderVm> OrderList;
-        public ShowOrdersPage(ICarService carService)
+        public ShowOrdersPage(ICarService carService,List<OrderVm> orderVms)
         {
             InitializeComponent();
             _carService = carService;
             _applicationContext = new ApplicationContext();
             _orderService = new OrderService(_applicationContext);
-            OrderList = _orderService.GetAll();
+            OrderList = orderVms;
             OrderList.GroupBy(s => s.TotalAmount);
         }
         int current_page = 1;
@@ -32,7 +32,7 @@ namespace Lab__2_.Views
         {
             //Task 3.5
             Action assignOrderValues = () =>
-            {
+            { 
                 CarIdBox.Text = OrderList[current_order].Car.Id.ToString();
                 ClientIdBox.Text = OrderList[current_order].Client.Id.ToString();
                 RentTimeBox.Text = OrderList[current_order].RentalTime.ToString();

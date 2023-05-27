@@ -1,5 +1,6 @@
 ﻿using Lab__2_.Database;
 using Lab_2.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Lab__2_.Services
         }
         public bool Delete(int id) 
         {
-            RentalCarVm dbrecord = _applicationContext.RentalCars.FirstOrDefault(x => x.Id == id);
+            RentalCarVm dbrecord = _applicationContext.RentalCars.Include(a => a.RentalFormVm).FirstOrDefault(x => x.Id == id);
             if (dbrecord == null) 
             { 
                 return false;
@@ -34,12 +35,11 @@ namespace Lab__2_.Services
         {
             try
             {
-                RentalCarVm dbrecord = _applicationContext.RentalCars.FirstOrDefault(x => x.Id == rentalCarVm.Id);
+                RentalCarVm dbrecord = _applicationContext.RentalCars.Include(a => a.RentalFormVm).FirstOrDefault(x => x.Id == rentalCarVm.Id);
                 if (dbrecord ==null)
                 {
                     return false;
                 }
-               // dbrecord.CarID = rentalCarVm.CarID;
                 dbrecord.CarName = rentalCarVm.CarName;
                 dbrecord.RentPrice = rentalCarVm.RentPrice;
                 dbrecord.IsAvailable = rentalCarVm.IsAvailable;
@@ -57,7 +57,7 @@ namespace Lab__2_.Services
         }
         public RentalCarVm GetById(int id)
         {
-            RentalCarVm dbrecord = _applicationContext.RentalCars.FirstOrDefault(x => x.Id == id);
+            RentalCarVm dbrecord = _applicationContext.RentalCars.Include(a => a.RentalFormVm).FirstOrDefault(x => x.Id == id);
             if (dbrecord == null)
             {
                 return null;
@@ -66,7 +66,7 @@ namespace Lab__2_.Services
         }
         public List<RentalCarVm> GetAll()
         {
-            List<RentalCarVm> dbrecord = _applicationContext.RentalCars.ToList();
+            List<RentalCarVm> dbrecord = _applicationContext.RentalCars.Include(a=>a.RentalFormVm).ToList();
             if (dbrecord == null)
             {
                 return null;
@@ -78,7 +78,6 @@ namespace Lab__2_.Services
         {
             var rental_car = new RentalCarVm
             {
-                //CarID = int.Parse(ID),
                 CarName = Name,
                 Description = Description,
                 RentPrice = int.Parse(Price),

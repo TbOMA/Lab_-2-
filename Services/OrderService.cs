@@ -1,5 +1,6 @@
 ﻿using Lab__2_.Database;
 using Lab_2.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Lab__2_.Services
         }
         public bool Delete(int id)
         {
-            OrderVm dbrecord = _applicationContext.Order.FirstOrDefault(x => x.RentalFormID == id);
+            OrderVm dbrecord = _applicationContext.Order.Include(a => a.Car).Include(c => c.Client).FirstOrDefault(x => x.RentalFormID == id);
             if (dbrecord == null)
             {
                 return false;
@@ -33,7 +34,7 @@ namespace Lab__2_.Services
         {
             try
             {
-                OrderVm dbrecord = _applicationContext.Order.FirstOrDefault(x => x.RentalFormID == orderVm.RentalFormID);
+                OrderVm dbrecord = _applicationContext.Order.Include(a => a.Car).Include(c => c.Client).FirstOrDefault(x => x.RentalFormID == orderVm.RentalFormID);
                 if (dbrecord == null)
                 {
                     return false;
@@ -43,9 +44,7 @@ namespace Lab__2_.Services
                 dbrecord.IsPaid = orderVm.IsPaid;
                 dbrecord.IsConsidered = orderVm.IsConsidered;
                 dbrecord.RejectionReason = orderVm.RejectionReason;
-                //dbrecord.Car.CarID = orderVm.Car.CarID;
                 dbrecord.RentalTime = orderVm.RentalTime;
-                //dbrecord.Client.ClientID =  orderVm.Client.ClientID;
                 dbrecord.Client.Username = orderVm.Client.Username;
                 dbrecord.Client.PassportNumber = orderVm.Client.PassportNumber;
                 _applicationContext.SaveChanges();
@@ -58,7 +57,7 @@ namespace Lab__2_.Services
         }
         public OrderVm GetById(int id)
         {
-            OrderVm dbrecord = _applicationContext.Order.FirstOrDefault(x => x.RentalFormID == id);
+            OrderVm dbrecord = _applicationContext.Order.Include(a => a.Car).Include(c => c.Client).FirstOrDefault(x => x.RentalFormID == id);
             if (dbrecord == null)
             {
                 return null;
@@ -67,7 +66,7 @@ namespace Lab__2_.Services
         }
         public List<OrderVm> GetAll()
         {
-            List<OrderVm> dbrecord = _applicationContext.Order.ToList();
+            List<OrderVm> dbrecord = _applicationContext.Order.Include(a=>a.Car).Include(c=>c.Client).ToList();
             if (dbrecord == null)
             {
                 return null;

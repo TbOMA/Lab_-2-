@@ -118,30 +118,18 @@ namespace Lab__2_
             var ClientsList = _clientService.GetAll();
             ClientVm client = ClientsList.Find(m => m.Id == _client.Id);
             OrderVm carorder = new OrderVm();
-            carorder.Car = CarslList[current_page-1];
             carorder.RentalTime = rentdays;
-            carorder.Client = client;
             carorder.TotalAmount = CarslList[current_page-1].RentPrice * rentdays;
+            carorder.IsPaid = false;
+            carorder.IsApproved = false;
+            carorder.CarID = CarslList[current_page-1].Id;
+            carorder.ClientID = _client.Id;
+            carorder.RejectionReason = "";
+            carorder.IsConsidered = false;
             OrderList.Add(carorder);
             _orderService.Create(carorder);
             MessageBox.Show("Your order has been placed.","", MessageBoxButton.OK, MessageBoxImage.Information);
             _carService.UpDate(CarslList[current_page-1]);
-            /*OrderVm orderVm = new OrderVm
-            {
-                RentalTime = 2,
-                TotalAmount = 1000,
-                IsPaid = false,
-                IsApproved = false,
-                Car = CarslList[current_page - 1],
-                Client = _client,
-                RejectionReason = "",
-                IsConsidered = false
-            };
-            OrderList.Add(orderVm);
-            _orderService.Create(orderVm);
-            MessageBox.Show("Your order has been placed.", "", MessageBoxButton.OK, MessageBoxImage.Information);
-            _carService.UpDate(CarslList[current_page - 1]);*/
-
         }
         private void ShowOrders_Click(object sender, RoutedEventArgs e)
         {

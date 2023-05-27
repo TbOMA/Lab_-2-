@@ -1,5 +1,6 @@
 ﻿using Lab__2_.Database;
 using Lab_2.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Lab__2_.Services
         }
         public bool Delete(int id)
         {
-            ClientVm dbrecord = _applicationContext.Clients.FirstOrDefault(x => x.Id == id);
+            ClientVm dbrecord = _applicationContext.Clients.Include(a => a.ClientOrders).FirstOrDefault(x => x.Id == id);
             if (dbrecord == null)
             {
                 return false;
@@ -33,7 +34,7 @@ namespace Lab__2_.Services
         {
             try
             {
-                ClientVm dbrecord = _applicationContext.Clients.FirstOrDefault(x => x.Id == clientVm.Id);
+                ClientVm dbrecord = _applicationContext.Clients.Include(a => a.ClientOrders).FirstOrDefault(x => x.Id == clientVm.Id);
                 if (dbrecord == null)
                 {
                     return false;
@@ -52,7 +53,7 @@ namespace Lab__2_.Services
         }
         public ClientVm GetById(int id)
         {
-            ClientVm dbrecord = _applicationContext.Clients.FirstOrDefault(x => x.Id == id);
+            ClientVm dbrecord = _applicationContext.Clients.Include(a => a.ClientOrders).FirstOrDefault(x => x.Id == id);
             if (dbrecord == null)
             {
                 return null;
@@ -61,7 +62,7 @@ namespace Lab__2_.Services
         }
         public List<ClientVm> GetAll()
         {
-            List<ClientVm> dbrecord = _applicationContext.Clients.ToList();
+            List<ClientVm> dbrecord = _applicationContext.Clients.Include(a=>a.ClientOrders).ToList();
             if (dbrecord == null)
             {
                 return null;

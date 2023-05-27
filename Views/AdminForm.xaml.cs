@@ -2,6 +2,7 @@
 using Lab__2_.Views;
 using Lab__2_.Services;
 using Lab__2_.Database;
+using System.Linq;
 
 namespace Lab__2_
 {
@@ -32,7 +33,7 @@ namespace Lab__2_
             var OrderList = _orderService.GetAll();
             if (OrderList.Count > 0)
             {
-                ShowOrdersPage.Navigate(new ShowOrdersPage(_carService));
+                ShowOrdersPage.Navigate(new ShowOrdersPage(_carService,OrderList));
                 ShowOrdersPage.Visibility = Visibility.Visible;
                 showocar.Visibility = Visibility.Collapsed;
                 showorder.Visibility = Visibility.Collapsed;

@@ -9,8 +9,9 @@
       Title="ClientOrdersPage" Loaded="Page_Loaded">
 
     <Grid>
+        <Label x:Name="label6" Content="The client crashed the car" Width="214" Margin="400,310,10,0" Foreground="Red" />
         <Grid x:Name="ImageGrid">
-            <Image x:Name="CarImage"  Margin="440,85,10,74" Height="200" Width="400" Source="{Binding ImageSourse}" ></Image>
+            <Image x:Name="CarImage"  Margin="440,85,10,74" Height="200" Width="400" Source="{Binding ImageSourse}" />
         </Grid>
         <Label x:Name="label1" Content="Car ID : " HorizontalAlignment="Left" Margin="222,157,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label x:Name="label2" Content="Car name : " HorizontalAlignment="Left" Margin="201,188,0,0" VerticalAlignment="Top" FontSize="14"/>
@@ -25,6 +26,5 @@
         <TextBox x:Name="CarPriceBox" HorizontalAlignment="Left" Height="20" Margin="286,288,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="PrevBtn" Content="&lt;" Margin="150,340,542,29" FontSize="24" FontWeight="Bold"   BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontFamily="Bahnschrift SemiBold Condensed" Click="PrevBtn_Click"/>
         <Button x:Name="NextBtn" Content="&gt;" Margin="438,340,254,29" FontWeight="Bold" FontSize="24"   BorderBrush="#FF47B5B0" Background="White" BorderThickness="5,5,5,5" FontFamily="Bahnschrift SemiBold Condensed" Click="NextBtn_Click"/>
-        <Label x:Name="label6" Content="The client crashed the car" Width="214" Margin="400,310,10,0" Foreground="Red" />
     </Grid>
 </Page>

@@ -7,5 +7,6 @@
         public string ? CarName { get; set; }
         public string ? Description { get; set; }
         public string ? CarImagePath { get; set; }
+       
     }
 }
